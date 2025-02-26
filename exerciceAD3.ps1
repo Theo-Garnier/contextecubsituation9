@@ -8,7 +8,7 @@
 do {
 $creation = Read-Host "vous voulez choisir une OU ou la Créer ?(O/C)"
 
-If($reservation -eq "C"){
+If($creation -eq "C"){
 try
 {
 $ouname = Read-host "Quel est le nom de l'unité d'organisation ?"
