@@ -3,46 +3,27 @@
 #AUTHOR: Garnier Théo
 #DATE:26/02/2025
 #
-#VERSION:1.0
-#COMMENTS: Création d'une étentue DHCP avec le nom,l'adresse réseau,le masque,la première adresse,la dernière et la passerelle
 #
 #=======================================================
 
 $nombre = Read-host "Combien d'hotes de type A voulez vous enregistrer ?"
 
 for ($i = 0; $i -lt $nombre; $i++){
+
+try
+{
 $typeanom = Read-host "Entrer le nom du type A ?"
 $typeaadr = Read-host "Entrer l'adresse réseau de l'hote ?"
+Add-DnsServerResourceRecord -A -Name $typeanom -ZoneName "local.dortmund.cub.sioplc.fr" -IPv4Address $typeaadr
+}
+catch
+{
+   Write-Host "Attention, l'enregistrement numéro $i n'a pas pu etre possible !" -ForegroundColor Red
+}
+Write-Host "le nom du type A entrer est $typeanom avec pour adresse ip $typeaadr" -ForegroundColor yellow
 }
 
 
-Write-host -ForegroundColor Yellow "=======================Récapitulatif de la configuration============================"
-Write-host -ForegroundColor Yellow "le nom d'étendue DHCP: $nom"
-Write-host -ForegroundColor Yellow "l'adresse réseau de l'étendue: $adresse_reseau"
-Write-host -ForegroundColor Yellow "le masque de sous-réseau de l'étendue: $masque"
-Write-host -ForegroundColor Yellow "la première adresse à distribuer: $premiere_adresse"
-Write-host -ForegroundColor Yellow "la dernière adresse à distribuer: $derniere_adresse"
-Write-host -ForegroundColor Yellow "la passerelle à diffuser: $passerelle"
-Write-host -ForegroundColor Yellow "===================================================================================="
 
-$reponse = Read-host "Etes-vous sur d'avoir mis la bonne configuration(OUI/NON)?"
-
-If($reponse -eq "OUI"){
-Add-DhcpServerv4Scope -name $nom -StartRange $premiere_adresse -EndRange $derniere_adresse -SubnetMask $masque -State Active
-Set-DhcpServerv4OptionValue -OptionID 3 -Value $passerelle -ScopeID $adresse_reseau
-
-Write-host -ForegroundColor Green "===========================Configuration mise en place==============================="
-Write-host -ForegroundColor Green "Configuration mise en place:"
-Write-host -ForegroundColor Green "le nom d'étendue DHCP: $nom"
-Write-host -ForegroundColor Green "l'adresse réseau de l'étendue: $adresse_reseau"
-Write-host -ForegroundColor Green "le masque de sous-réseau de l'étendue: $masque"
-Write-host -ForegroundColor Green "la première adresse à distribuer: $premiere_adresse"
-Write-host -ForegroundColor Green "la dernière adresse à distribuer: $derniere_adresse"
-Write-host -ForegroundColor Green "la passerelle à diffuser: $passerelle"
-Write-host -ForegroundColor Green "====================================================================================="
-}
-Else{
-Write-host "Fin du script"
-}
 
 
