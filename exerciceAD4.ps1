@@ -1,4 +1,10 @@
-﻿Import-Module ActiveDirectory
+﻿#=======================================================
+#NAME:exerciceAD4.ps1
+#AUTHOR: Garnier Théo
+#DATE:05/03/2025
+#
+#=======================================================
+Import-Module ActiveDirectory
 
 
 try {
